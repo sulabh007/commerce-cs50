@@ -1,0 +1,19 @@
+{% extends "auctions/layout.html" %}
+
+{% block body %}
+    <h2>All the items</h2>
+    {% if request.user.is_authenticated %}
+    <div class="forms">
+        <form action="{% url 'category' %}" method="post" enctype="multipart?form-data">
+            {% csrf_token %}
+            <div class="input-form"><input name="category" placeholder="Category"></div>
+            <input type="submit" value="Add new category" >
+        </form>
+    </div>
+    {% endif %}
+    {% for category in categories %}
+        <ul>
+            <li><a href="{% url 'listcategory' category.id %}"> {{category}}</a></li>
+        </ul>
+    {% endfor %}
+{% endblock %}

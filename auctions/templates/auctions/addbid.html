@@ -1,0 +1,14 @@
+{% extends "auctions/layout.html" %}
+
+{% block body %}
+      <h1>Add Comment</h1>
+    <div class="forms">
+        <form action="{% url 'addbid' item_id %}" method="post" enctype="multipart?form-data">
+            {% csrf_token %}
+            <P>{{user}}</p>
+            <P>{{item}}</P>
+            <input class="form-control" autofocus type="text" name="Price" placeholder="Price">
+            <input class="btn btn-primary" type="submit" value="Add Comment">
+        </form>
+    </div>
+{% endblock %}

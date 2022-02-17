@@ -1,0 +1,24 @@
+{% extends "auctions/layout.html" %}
+
+{% block body %}
+    <h2>All the items</h2>
+    {% for listing in listings %}
+        {% if listing.sold == False %}
+            <ul>
+                <li><a href="{% url 'item' listing.id %}">Item{{listing.id}} : {{listing}}</a></li>
+                <p>{{listing.description}}</p>
+                {% if listing.current_bid == None %}
+                    <p>{{listing.price}}</P>
+                {% else %}
+                    <p>{{listing.current_bid}}</P>   
+                {% endif %}
+                
+            </ul>
+        {% else %}
+            <p>Sold items</p>
+            <ul>
+                <li><a href="{% url 'item' listing.id %}">Item{{listing.id}} : {{listing}}</a></li>
+            </ul>
+        {% endif %}
+    {% endfor %}
+{% endblock %}

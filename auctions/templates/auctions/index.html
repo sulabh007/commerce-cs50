@@ -1,0 +1,13 @@
+{% extends "auctions/layout.html" %}
+
+{% block body %}
+        <ul>
+            <li><a href="{% url 'list'  %}">view all products</a></li>
+            <li><a href="{% url 'create'  %}">Sell something</a></li>
+            <li><a href="{% url 'category'%}">Category</a></li>
+            
+            {% if request.user.is_authenticated %}
+                <li><a href="{% url 'watchlist' %}">wishlist</a></li>
+            {% endif %}
+        </ul>
+{% endblock %}

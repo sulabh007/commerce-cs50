@@ -1,0 +1,58 @@
+{% extends "auctions/layout.html" %}
+
+{% block body %}
+    {% if item.sold %}
+        <p>not available</p>
+    {% endif %}
+    <h1>Item {{item.id}}</h1>
+    <h3>Name: {{item.title}}</h3>
+    <p>Image: </p> 
+    <img src={{item.image_url}}>
+    <p>Description: {{item.description}}</p>
+    <p>Seller: {{item.user}}</p>
+    <p> Category: {{item.category}}</p>
+    <p> Starting Bid: {{item.price}}</p>
+    <p> {% if highest_bid == None %} No Bid so far {% else %} Current Bid: {{item.current_bid}} By {{highest_bid.user}}{% endif %} </p>
+
+    {% if buyer == item.user %}
+        {% if item.sold == False %}
+            <p><a href={% url 'sell' item.id %}>sell</a>
+        {% else %}
+            <p>Sold</p>
+        {% endif %}
+    {% endif %}
+
+    {% if item.sold == True %}
+        {% if highest_bid == None %}
+            <p>No one Bid</p>
+        {% else %}    
+            <p>Sold to {{highest_bid.user}} for {{highest_bid.price}}</p>
+        {% endif %}
+    {% else %}
+        {% if buyer != item.user and request.user.is_authenticated %}
+            <p><a href={% url 'addbid' item.id %}>Add bid</a></p>
+        {% endif %}
+
+    {% endif %}
+
+    {% if request.user.is_authenticated %}
+        <p><a href={% url 'addcomment' item.id %}>Add Comment</a></p>
+        {% if buyer != item.user %}
+            {% if check is None %}
+                <p><a href={% url 'addwish' item.id %}>Add to Watchlist</a></p>
+            {% else %}
+                <p><a href={% url 'remove_wish' item.id %}>Remove From Watchlist</a></p>
+            {% endif %}
+        {% endif %}
+        
+    
+    {% endif %}
+
+
+
+    <h4>comments</h4>
+    {% for comment in comments %}
+        {{comment.comment}}
+        <p>by {{comment.user}}</p>
+    {% endfor %}
+{% endblock %}
